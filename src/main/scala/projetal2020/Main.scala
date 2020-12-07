@@ -23,10 +23,6 @@ object Main extends App {
       print(tail)
   }
 
-  print(data.toList)
-  // Le code suivant ne compilera pas.
-  // var tmp = null;
-  // var tmp2 = if (tmp == 1) "yes" else 1
+  //print(data.toList)
 
-  // println(s"tmp: $tmp, tmp2: $tmp2")
 }
