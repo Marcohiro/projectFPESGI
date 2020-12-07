@@ -11,31 +11,41 @@ class FileParser(filePath: String) {
   def isAllDigits(x: String) = x forall Character.isDigit
 
   def isValidDirection(direction: String): Boolean = {
-    direction.equals("N") || direction.equals("E") || direction.equals("W") || direction.equals("S")
+    direction.equals("N") || direction.equals("E") || direction.equals("W") || direction
+      .equals("S")
   }
 
   def isPositive(number: String): Boolean = {
-    if(number.length == 1 && isAllDigits(number)){
+    if (number.length == 1 && isAllDigits(number)) {
       number.toInt > 0
+    } else {
+      false
     }
-    false
   }
 
-  def isValidInstructionsSet(instructions: String): Boolean ={
+  def isValidInstructionsSet(instructions: String): Boolean = {
     val chars = instructions.toCharArray
     chars.forall(c => validInstructions.contains(c))
   }
 
+  def getAmountOfChar(line: String): Int = {
+    line.replaceAll("\\s", "").length
+  }
+
   def parseLine(nbChar: Int, line: String): Array[String] = {
     def chars = line.split(" ")
-    if (chars.length != nbChar) {
+    if (chars.length != nbChar && chars.length > 1) {
       System.out.println("Erreur : Le nombre de characteres de correspond pas")
-      Array[String]()
+      Array()
     } else {
       nbChar match {
         case 1 => {
-          if(isValidDirection(chars)) {chars} else {
-            System.out.println("Fichier invalide : Les instructions ne sont pas valides")
+          if (isValidDirection(chars(0))) {
+            chars
+          } else {
+            System.out.println(
+              "Fichier invalide : Les instructions ne sont pas valides"
+            )
             Array[String]()
           }
         }
@@ -65,22 +75,36 @@ class FileParser(filePath: String) {
           }
         }
         case _ => {
-          System.out.println("Erreur : Le fichier ne correspond a rien")
-          Array[String]()
+          if (isValidInstructionsSet(chars(0))) {
+            chars
+          } else {
+            System.out.println("Erreur : Le fichier ne correspond a rien")
+            Array[String]()
+          }
         }
       }
     }
   }
 
-  def getData(): Array[String] = {
+  def getData(): Array[Array[String]] = {
     val lines = Source.fromFile(path).getLines().toArray
     if (lines.length % 2 == 0) {
       System.out.println("Fichier Invalide : Il manque des instructions")
+      Array()
     } else if (lines.length < 2) {
       System.out.println("Fichier Invalide : Il n'y a aucune tondeuse")
+      Array()
     } else {
       System.out.println("Fichier valide")
+      def helper(
+          arg: List[String],
+          res: Array[Array[String]]
+      ): Array[Array[String]] = arg match {
+        case List() => res
+        case head :: tail =>
+          helper(tail, res :+ parseLine(getAmountOfChar(head), head))
+      }
+      helper(lines.toList, Array())
     }
-    lines
   }
 }
