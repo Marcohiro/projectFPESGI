@@ -33,6 +33,7 @@ class Mower(x: Int, y: Int, orientation: String) {
   def newDirection(order: String): Mower = order match {
     case "D" => new Mower(x, y, addRight(direction))
     case "G" => new Mower(x, y, addLeft(direction))
+    case "A" => forward()
     case _   => new Mower(x, y, direction)
   }
 }
