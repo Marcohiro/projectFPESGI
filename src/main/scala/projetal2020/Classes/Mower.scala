@@ -19,7 +19,7 @@ class Mower(x: Int, y: Int, orientation: String) {
     case "E" => "S"
     case "W" => "N"
     case "S" => "W"
-    case _  => "ERROR"
+    case _   => "ERROR"
   }
 
   def forward(): Mower = direction match {
