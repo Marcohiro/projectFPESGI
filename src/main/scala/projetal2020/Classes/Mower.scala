@@ -36,4 +36,8 @@ class Mower(x: Int, y: Int, orientation: String) {
     case "A" => forward()
     case _   => new Mower(x, y, direction)
   }
+
+  override def toString(): String = {
+    "X : " + abscissa.toString + " Y : " + ordinate.toString + " Direction : " + direction
+  }
 }
