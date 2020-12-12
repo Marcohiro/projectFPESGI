@@ -28,7 +28,7 @@ class ResWriter(
                 ),
                 "direction" -> el(0).direction
               ),
-              "instructions" -> el(0).direction,
+              "instructions" -> el(0).orders,
               "fin" -> Json.obj(
                 "point" -> Json.obj(
                   "x" -> el(1).abscissa,
