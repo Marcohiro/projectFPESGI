@@ -17,7 +17,7 @@ class ResWriter(
         "x" -> init(0),
         "y" -> init(1)
       ),
-      "Tondeuses" -> Json.arr(
+      "Tondeuses" ->
         data.map(
           el =>
             Json.obj(
@@ -38,7 +38,6 @@ class ResWriter(
               )
             )
         )
-      )
     )
     res
   }

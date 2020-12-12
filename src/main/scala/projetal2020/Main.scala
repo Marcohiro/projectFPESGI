@@ -89,7 +89,7 @@ object Main extends App {
   print(mowerArrayToStringArray(res).toList)
 
   val outpuFile: File = File(
-    "C:\\\\Users\\\\petit\\\\OneDrive\\\\Bureau\\\\SCALA test\\\\output.json"
+    "C:\\\\Users\\\\petit\\\\OneDrive\\\\Bureau\\\\SCALA test\\\\output2.json"
   ) // using constructor
 
   outpuFile.createIfNotExists().appendLine(Json.stringify(resWriter.write()))
