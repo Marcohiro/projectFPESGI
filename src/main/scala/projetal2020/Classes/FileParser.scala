@@ -8,12 +8,9 @@ class FileParser(filePath: String) {
 
   val validInstructions: Array[Char] = Array[Char]('A', 'G', 'D')
 
-  def isAllDigits(x: String) = x forall Character.isDigit
+  val validDirections: Array[Char] = Array[Char]('N', 'E', 'W', 'S')
 
-  def isValidDirection(direction: String): Boolean = {
-    direction.equals("N") || direction.equals("E") || direction.equals("W") || direction
-      .equals("S")
-  }
+  def isAllDigits(x: String) = x forall Character.isDigit
 
   def isPositive(number: String): Boolean = {
     if (number.length == 1 && isAllDigits(number)) {
@@ -28,6 +25,11 @@ class FileParser(filePath: String) {
     chars.forall(c => validInstructions.contains(c))
   }
 
+  def isValidDirectionSet(direction: String): Boolean = {
+    val chars = direction.toCharArray
+    chars.forall(c => validDirections.contains(c))
+  }
+
   def getAmountOfChar(line: String): Int = {
     line.replaceAll("\\s", "").length
   }
@@ -40,7 +42,7 @@ class FileParser(filePath: String) {
     } else {
       nbChar match {
         case 1 => {
-          if (isValidDirection(chars(0))) {
+          if (isValidDirectionSet(chars(0))) {
             chars.mkString(" ")
           } else {
             System.out.println(
@@ -59,7 +61,7 @@ class FileParser(filePath: String) {
         }
         case 3 => {
           if (isPositive(chars(0)) && isPositive(chars(1))) {
-            if (isValidDirection(chars(2))) {
+            if (isValidDirectionSet(chars(2))) {
               chars.mkString(" ")
             } else {
               System.out.println(

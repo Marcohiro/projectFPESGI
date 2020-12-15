@@ -1,11 +1,10 @@
 package main.scala.projetal2020.Classes
 
-class Mower(x: Int, y: Int, orientation: String, instructions: String) {
+class Mower(x: Int, y: Int, orientation: String) {
 
   val abscissa: Int = x
   val ordinate: Int = y
   val direction: String = orientation
-  val orders: String = instructions
 
   def addLeft(direction: String): String = direction match {
     case "N" => "W"
@@ -24,18 +23,18 @@ class Mower(x: Int, y: Int, orientation: String, instructions: String) {
   }
 
   def forward(): Mower = direction match {
-    case "N" => new Mower(x, y + 1, direction, orders)
-    case "E" => new Mower(x + 1, y, direction, orders)
-    case "W" => new Mower(x - 1, y, direction, orders)
-    case "S" => new Mower(x, y - 1, direction, orders)
-    case _   => new Mower(x, y, direction, orders)
+    case "N" => new Mower(x, y + 1, direction)
+    case "E" => new Mower(x + 1, y, direction)
+    case "W" => new Mower(x - 1, y, direction)
+    case "S" => new Mower(x, y - 1, direction)
+    case _   => new Mower(x, y, direction)
   }
 
   def executeOrder(order: String): Mower = order match {
-    case "D" => new Mower(x, y, addRight(direction), orders)
-    case "G" => new Mower(x, y, addLeft(direction), orders)
+    case "D" => new Mower(x, y, addRight(direction))
+    case "G" => new Mower(x, y, addLeft(direction))
     case "A" => forward()
-    case _   => new Mower(x, y, direction, orders)
+    case _   => new Mower(x, y, direction)
   }
 
   override def toString(): String = {
