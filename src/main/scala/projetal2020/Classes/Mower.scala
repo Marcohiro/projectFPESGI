@@ -1,43 +1,42 @@
 package main.scala.projetal2020.Classes
 
-class Mower(x: Int, y: Int, orientation: String) {
+import main.scala.projetal2020.const.{ValidDirection, ValidInstruction}
+
+class Mower(x: Int, y: Int, orientation: ValidDirection.Value) {
 
   val abscissa: Int = x
   val ordinate: Int = y
-  val direction: String = orientation
+  val direction: ValidDirection.Value = orientation
 
-  def addLeft(direction: String): String = direction match {
-    case "N" => "W"
-    case "E" => "N"
-    case "W" => "S"
-    case "S" => "E"
-    case _   => "ERROR"
+  def addLeft(direction: ValidDirection.Value): ValidDirection.Value = {
+    direction match {
+      case ValidDirection.North => ValidDirection.West
+      case ValidDirection.East  => ValidDirection.North
+      case ValidDirection.West  => ValidDirection.South
+      case ValidDirection.South => ValidDirection.East
+    }
   }
 
-  def addRight(direction: String): String = direction match {
-    case "N" => "E"
-    case "E" => "S"
-    case "W" => "N"
-    case "S" => "W"
-    case _   => "ERROR"
+  def addRight(direction: ValidDirection.Value): ValidDirection.Value = {
+    direction match {
+      case ValidDirection.North => ValidDirection.East
+      case ValidDirection.East  => ValidDirection.South
+      case ValidDirection.West  => ValidDirection.North
+      case ValidDirection.South => ValidDirection.West
+    }
   }
 
   def forward(): Mower = direction match {
-    case "N" => new Mower(x, y + 1, direction)
-    case "E" => new Mower(x + 1, y, direction)
-    case "W" => new Mower(x - 1, y, direction)
-    case "S" => new Mower(x, y - 1, direction)
-    case _   => new Mower(x, y, direction)
+    case ValidDirection.North => new Mower(x, y + 1, direction)
+    case ValidDirection.East  => new Mower(x + 1, y, direction)
+    case ValidDirection.West  => new Mower(x - 1, y, direction)
+    case ValidDirection.South => new Mower(x, y - 1, direction)
   }
 
-  def executeOrder(order: String): Mower = order match {
-    case "D" => new Mower(x, y, addRight(direction))
-    case "G" => new Mower(x, y, addLeft(direction))
-    case "A" => forward()
-    case _   => new Mower(x, y, direction)
+  def executeOrder(order: ValidInstruction.Value): Mower = order match {
+    case ValidInstruction.Right   => new Mower(x, y, addRight(direction))
+    case ValidInstruction.Left    => new Mower(x, y, addLeft(direction))
+    case ValidInstruction.Forward => forward()
   }
 
-  override def toString(): String = {
-    "X : " + abscissa.toString + " Y : " + ordinate.toString + " Direction : " + direction
-  }
 }

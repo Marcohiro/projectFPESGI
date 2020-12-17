@@ -1,5 +1,7 @@
 package main.scala.projetal2020.Classes
 
+import main.scala.projetal2020.const.ValidDirection
+
 class DataParser(data: Array[String]) {
 
   val donnes = data
@@ -10,7 +12,11 @@ class DataParser(data: Array[String]) {
 
   def toMower(mower: String): Mower = {
     val coords = mower.split(" ")
-    new Mower(coords(0).toInt, coords(1).toInt, coords(2))
+    new Mower(
+      coords(0).toInt,
+      coords(1).toInt,
+      ValidDirection.parse(coords(2).charAt(0))
+    )
   }
 
   def getInstructions(): Array[String] = {

@@ -1,5 +1,7 @@
 package main.scala.projetal2020.Classes
 
+import main.scala.projetal2020.Exceptions.DonneesIncorectesException
+
 import scala.io.Source
 
 class FileParser(filePath: String) {
@@ -34,29 +36,31 @@ class FileParser(filePath: String) {
     line.replaceAll("\\s", "").length
   }
 
+  @SuppressWarnings(Array("org.wartremover.warts.Throw"))
   def parseLine(nbChar: Int, line: String): String = {
     def chars = line.split(" ")
     if (chars.length != nbChar && chars.length > 1) {
-      System.out.println("Erreur : Le nombre de characteres de correspond pas")
-      "Erreur : Le nombre de characteres de correspond pas"
+      throw new DonneesIncorectesException(
+        "Erreur : Le nombre de characteres de correspond pas"
+      )
     } else {
       nbChar match {
         case 1 => {
           if (isValidDirectionSet(chars(0))) {
             chars.mkString(" ")
           } else {
-            System.out.println(
+            throw new DonneesIncorectesException(
               "Fichier invalide : Les instructions ne sont pas valides"
             )
-            "Fichier invalide : Les instructions ne sont pas valides"
           }
         }
         case 2 => {
           if (isPositive(chars(0)) && isPositive(chars(1))) {
             chars.mkString(" ")
           } else {
-            System.out.println("Fichier invalide : La grille est mal definie")
-            "Fichier invalide : La grille est mal definie"
+            throw new DonneesIncorectesException(
+              "Fichier invalide : La grille est mal definie"
+            )
           }
         }
         case 3 => {
@@ -64,38 +68,40 @@ class FileParser(filePath: String) {
             if (isValidDirectionSet(chars(2))) {
               chars.mkString(" ")
             } else {
-              System.out.println(
+              throw new DonneesIncorectesException(
                 "Fichier invalide : La direction de la tondeuse est mal définie"
               )
-              "Fichier invalide : La direction de la tondeuse est mal définie"
             }
           } else {
-            System.out.println(
+            throw new DonneesIncorectesException(
               "Fichier invalide : Les coordonnees de la tondeuse sont mal définies"
             )
-            "Fichier invalide : Les coordonnees de la tondeuse sont mal définies"
           }
         }
         case _ => {
           if (isValidInstructionsSet(chars(0))) {
             chars.mkString(" ")
           } else {
-            System.out.println("Erreur : Le fichier ne correspond a rien")
-            "Erreur : Le fichier ne correspond a rien"
+            throw new DonneesIncorectesException(
+              "Fichier invalide : Les instructions ne sont pas valides"
+            )
           }
         }
       }
     }
   }
 
+  @SuppressWarnings(Array("org.wartremover.warts.Throw"))
   def getData(): Array[String] = {
     val lines = Source.fromFile(path).getLines().toArray
     if (lines.length % 2 == 0) {
-      System.out.println("Fichier Invalide : Il manque des instructions")
-      Array()
+      throw new DonneesIncorectesException(
+        "Fichier Invalide : Il manque des instructions"
+      )
     } else if (lines.length < 2) {
-      System.out.println("Fichier Invalide : Il n'y a aucune tondeuse")
-      Array()
+      throw new DonneesIncorectesException(
+        "Fichier Invalide : Il n'y a aucune tondeuse"
+      )
     } else {
       System.out.println("Fichier valide")
       def helper(

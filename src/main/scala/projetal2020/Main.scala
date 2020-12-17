@@ -22,9 +22,6 @@ object Main extends App {
 
   val instructions = dataParser.getInstructions()
 
-  System.out.println(instructions(0))
-  System.out.println(instructions(1))
-
   val res = dataParser.executeInstructionsSet()
 
   val resWriter = new ResWriter(
