@@ -1,16 +1,13 @@
 package main.scala.projetal2020.Classes
 
 import main.scala.projetal2020.Exceptions.DonneesIncorectesException
+import main.scala.projetal2020.const.{ValidDirection, ValidInstruction}
 
 import scala.io.Source
 
 class FileParser(filePath: String) {
 
   val path: String = filePath
-
-  val validInstructions: Array[Char] = Array[Char]('A', 'G', 'D')
-
-  val validDirections: Array[Char] = Array[Char]('N', 'E', 'W', 'S')
 
   def isAllDigits(x: String) = x forall Character.isDigit
 
@@ -24,12 +21,12 @@ class FileParser(filePath: String) {
 
   def isValidInstructionsSet(instructions: String): Boolean = {
     val chars = instructions.toCharArray
-    chars.forall(c => validInstructions.contains(c))
+    chars.forall(c => ValidInstruction.isValid(c))
   }
 
   def isValidDirectionSet(direction: String): Boolean = {
     val chars = direction.toCharArray
-    chars.forall(c => validDirections.contains(c))
+    chars.forall(c => ValidDirection.isValid(c))
   }
 
   def getAmountOfChar(line: String): Int = {
@@ -103,7 +100,6 @@ class FileParser(filePath: String) {
         "Fichier Invalide : Il n'y a aucune tondeuse"
       )
     } else {
-      System.out.println("Fichier valide")
       def helper(
           arg: List[String],
           res: Array[String]
