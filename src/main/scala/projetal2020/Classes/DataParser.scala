@@ -45,19 +45,28 @@ class DataParser(data: List[String]) {
     helper(data.drop(1), List())
   }
 
+  @SuppressWarnings(Array("org.wartremover.warts.Throw"))
   def executeInstructionsSet(): List[Mower] = {
     val maxX = donnes(0).split(" ")(0).toInt
     val maxY = donnes(0).split(" ")(1).toInt
-    def helper(data: List[String], res: List[Mower]): List[Mower] =
+    def helper(data: List[String], res: List[Mower], line: Int): List[Mower] =
       data match {
         case List()         => res
         case head :: List() => res :+ toMower(head)
         case mower :: instructions :: tail =>
           val grid =
             new Grid(new Coordinate(maxX, maxY), toMower(mower), instructions)
-          helper(tail, res :+ grid.executeInstructionSet())
+          try {
+            val newMower = grid.executeInstructionSet()
+            helper(tail, res :+ newMower, line + 2)
+          } catch {
+            case donneesIncorectesException: DonneesIncorectesException =>
+              throw new DonneesIncorectesException(
+                donneesIncorectesException.getMessage + " a la ligne " + line.toString
+              )
+          }
       }
-    helper(donnes.drop(1), List())
+    helper(donnes.drop(1), List(), 1)
   }
 
   def mowerArrayToStringArray(mowers: List[Mower]): List[String] = {
