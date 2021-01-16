@@ -1,4 +1,4 @@
-package main.scala.projetal2020.const
+package main.scala.projetal2020.Enums
 
 object ValidInstruction extends Enumeration {
 

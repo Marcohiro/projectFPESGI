@@ -1,9 +1,9 @@
 package main.scala.projetal2020.Classes
 
 import main.scala.projetal2020.Exceptions.DonneesIncorectesException
-import main.scala.projetal2020.const.ValidInstruction
+import main.scala.projetal2020.Enums.ValidInstruction
 
-class Grid(x: Int, y: Int, mower: Mower, instructions: String) {
+class Grid(coordinate: Coordinate, mower: Mower, instructions: String) {
 
   @SuppressWarnings(Array("org.wartremover.warts.Throw"))
   def executeInstructionSet(): Mower = {
@@ -11,7 +11,7 @@ class Grid(x: Int, y: Int, mower: Mower, instructions: String) {
       instructions match {
         case List() => res
         case head :: tail =>
-          if (res.abscissa < 0 || res.abscissa > x || res.ordinate < 0 || res.ordinate > y) {
+          if (res.outOfBounds(coordinate)) {
             throw new DonneesIncorectesException(
               "Erreur: La tondeuse est en dehors de la grille"
             )

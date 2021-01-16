@@ -1,7 +1,7 @@
 package main.scala.projetal2020.Classes
 
 import main.scala.projetal2020.Exceptions.DonneesIncorectesException
-import main.scala.projetal2020.const.{ValidDirection, ValidInstruction}
+import main.scala.projetal2020.Enums.{ValidDirection, ValidInstruction}
 
 import scala.io.Source
 
@@ -89,8 +89,8 @@ class FileParser(filePath: String) {
   }
 
   @SuppressWarnings(Array("org.wartremover.warts.Throw"))
-  def getData(): Array[String] = {
-    val lines = Source.fromFile(path).getLines().toArray
+  def getData(): List[String] = {
+    val lines = Source.fromFile(path).getLines().toList
     if (lines.length % 2 == 0) {
       throw new DonneesIncorectesException(
         "Fichier Invalide : Il manque des instructions"
@@ -102,13 +102,13 @@ class FileParser(filePath: String) {
     } else {
       def helper(
           arg: List[String],
-          res: Array[String]
-      ): Array[String] = arg match {
+          res: List[String]
+      ): List[String] = arg match {
         case List() => res
         case head :: tail =>
           helper(tail, res :+ parseLine(getAmountOfChar(head), head))
       }
-      helper(lines.toList, Array())
+      helper(lines, List())
     }
   }
 }

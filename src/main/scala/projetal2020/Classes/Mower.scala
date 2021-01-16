@@ -1,11 +1,11 @@
 package main.scala.projetal2020.Classes
 
-import main.scala.projetal2020.const.{ValidDirection, ValidInstruction}
+import main.scala.projetal2020.Enums.{ValidDirection, ValidInstruction}
+import play.api.libs.json.{Json, Writes}
 
-class Mower(x: Int, y: Int, orientation: ValidDirection.Value) {
+case class Mower(coordinate: Coordinate, orientation: ValidDirection.Value) {
 
-  val abscissa: Int = x
-  val ordinate: Int = y
+  val position: Coordinate = coordinate
   val direction: ValidDirection.Value = orientation
 
   def addLeft(direction: ValidDirection.Value): ValidDirection.Value = {
@@ -27,16 +27,30 @@ class Mower(x: Int, y: Int, orientation: ValidDirection.Value) {
   }
 
   def forward(): Mower = direction match {
-    case ValidDirection.North => new Mower(x, y + 1, direction)
-    case ValidDirection.East  => new Mower(x + 1, y, direction)
-    case ValidDirection.West  => new Mower(x - 1, y, direction)
-    case ValidDirection.South => new Mower(x, y - 1, direction)
+    case ValidDirection.North =>
+      new Mower(new Coordinate(position.x, position.y + 1), direction)
+    case ValidDirection.East =>
+      new Mower(new Coordinate(position.x + 1, position.y), direction)
+    case ValidDirection.West =>
+      new Mower(new Coordinate(position.x - 1, position.y), direction)
+    case ValidDirection.South =>
+      new Mower(new Coordinate(position.x, position.y - 1), direction)
   }
 
   def executeOrder(order: ValidInstruction.Value): Mower = order match {
-    case ValidInstruction.Right   => new Mower(x, y, addRight(direction))
-    case ValidInstruction.Left    => new Mower(x, y, addLeft(direction))
+    case ValidInstruction.Right   => new Mower(position, addRight(direction))
+    case ValidInstruction.Left    => new Mower(position, addLeft(direction))
     case ValidInstruction.Forward => forward()
   }
+
+  def outOfBounds(coordinate: Coordinate): Boolean = {
+    position.x < 0 || position.y < 0 || position.x > coordinate.x || position.y > coordinate.y
+  }
+
+}
+
+object Mower {
+
+  implicit val writes: Writes[Mower] = Json.writes[Mower]
 
 }
