@@ -70,7 +70,6 @@ class DataParser(data: List[String]) {
     helper(mowers, List())
   }
 
-  @SuppressWarnings(Array("org.wartremover.warts.Throw"))
   def getMowersRes(): List[MowersRes] = {
     def helper(
         mowersStart: List[Mower],
