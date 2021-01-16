@@ -3,10 +3,13 @@ package main.scala.projetal2020.Classes
 import main.scala.projetal2020.Exceptions.DonneesIncorectesException
 import main.scala.projetal2020.Enums.ValidInstruction
 
+import scala.annotation.tailrec
+
 class Grid(coordinate: Coordinate, mower: Mower, instructions: String) {
 
   @SuppressWarnings(Array("org.wartremover.warts.Throw"))
   def executeInstructionSet(): Mower = {
+    @tailrec
     def helper(instructions: List[Char], res: Mower, nbChar: Int): Mower =
       instructions match {
         case List() => res
