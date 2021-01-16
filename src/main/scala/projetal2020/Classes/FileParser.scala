@@ -34,11 +34,11 @@ class FileParser(filePath: String) {
   }
 
   @SuppressWarnings(Array("org.wartremover.warts.Throw"))
-  def parseLine(nbChar: Int, line: String): String = {
+  def parseLine(nbChar: Int, line: String, nbLine: Int): String = {
     def chars = line.split(" ")
     if (chars.length != nbChar && chars.length > 1) {
       throw new DonneesIncorectesException(
-        "Erreur : Le nombre de characteres de correspond pas"
+        "Erreur : Le nombre de characteres de correspond pas a la ligne " + nbLine.toString
       )
     } else {
       nbChar match {
@@ -47,7 +47,7 @@ class FileParser(filePath: String) {
             chars.mkString(" ")
           } else {
             throw new DonneesIncorectesException(
-              "Fichier invalide : Les instructions ne sont pas valides"
+              "Fichier invalide : Les instructions ne sont pas valides a la ligne " + nbLine.toString
             )
           }
         }
@@ -56,7 +56,7 @@ class FileParser(filePath: String) {
             chars.mkString(" ")
           } else {
             throw new DonneesIncorectesException(
-              "Fichier invalide : La grille est mal definie"
+              "Fichier invalide : La grille est mal definie a la ligne " + nbLine.toString
             )
           }
         }
@@ -66,12 +66,12 @@ class FileParser(filePath: String) {
               chars.mkString(" ")
             } else {
               throw new DonneesIncorectesException(
-                "Fichier invalide : La direction de la tondeuse est mal définie"
+                "Fichier invalide : La direction de la tondeuse est mal définie a la ligne " + nbLine.toString
               )
             }
           } else {
             throw new DonneesIncorectesException(
-              "Fichier invalide : Les coordonnees de la tondeuse sont mal définies"
+              "Fichier invalide : Les coordonnees de la tondeuse sont mal définies a la ligne " + nbLine.toString
             )
           }
         }
@@ -80,7 +80,7 @@ class FileParser(filePath: String) {
             chars.mkString(" ")
           } else {
             throw new DonneesIncorectesException(
-              "Fichier invalide : Les instructions ne sont pas valides"
+              "Fichier invalide : Les instructions ne sont pas valides a la ligne " + nbLine.toString
             )
           }
         }
@@ -102,13 +102,18 @@ class FileParser(filePath: String) {
     } else {
       def helper(
           arg: List[String],
-          res: List[String]
+          res: List[String],
+          index: Int
       ): List[String] = arg match {
         case List() => res
         case head :: tail =>
-          helper(tail, res :+ parseLine(getAmountOfChar(head), head))
+          helper(
+            tail,
+            res :+ parseLine(getAmountOfChar(head), head, index + 1),
+            index + 1
+          )
       }
-      helper(lines, List())
+      helper(lines, List(), 0)
     }
   }
 }

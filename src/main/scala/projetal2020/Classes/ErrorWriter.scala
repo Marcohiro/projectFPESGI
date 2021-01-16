@@ -1,17 +1,11 @@
 package main.scala.projetal2020.Classes
 
-import play.api.libs.json._
+import play.api.libs.json.{Json, Writes}
 
-class ErrorWriter(cause: String) {
+case class ErrorWriter(cause: String) {}
 
-  val reason = cause
+object ErrorWriter {
 
-  def write(): JsValue = {
-    val res: JsValue = Json.obj(
-      "Erreur" -> Json.obj(
-        "Cause" -> reason
-      )
-    )
-    res
-  }
+  implicit val writes: Writes[ErrorWriter] = Json.writes[ErrorWriter]
+
 }
