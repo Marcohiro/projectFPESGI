@@ -12,7 +12,7 @@ class FileParser(filePath: String) {
   def isAllDigits(x: String) = x forall Character.isDigit
 
   def isPositive(number: String): Boolean = {
-    if (number.length == 1 && isAllDigits(number)) {
+    if (number.length > 0 && isAllDigits(number)) {
       number.toInt > 0
     } else {
       false
@@ -30,7 +30,11 @@ class FileParser(filePath: String) {
   }
 
   def getAmountOfChar(line: String): Int = {
-    line.replaceAll("\\s", "").length
+    if (line.split(" ").length == 2) {
+      2
+    } else {
+      line.replaceAll("\\s", "").length
+    }
   }
 
   @SuppressWarnings(Array("org.wartremover.warts.Throw"))

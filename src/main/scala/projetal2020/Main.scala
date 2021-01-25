@@ -14,7 +14,7 @@ object Main extends App {
 
   //On initialise tout d'abord le lecteur du fichier
   val fileParser = new FileParser(
-    "C:\\Users\\petit\\OneDrive\\Bureau\\SCALA test\\invalideHorsGrille.txt"
+    "C:\\Users\\petit\\OneDrive\\Bureau\\SCALA test\\valide.txt"
   )
 
   //On met un bloc try en cas d'exception levee
@@ -38,7 +38,7 @@ object Main extends App {
 
     //On prépare ici l'écriture dans un fichier
     val outputFile: File = File(
-      "C:\\\\Users\\\\petit\\\\OneDrive\\\\Bureau\\\\SCALA test\\\\output7.json"
+      "C:\\\\Users\\\\petit\\\\OneDrive\\\\Bureau\\\\SCALA test\\\\output14.json"
     )
 
     //On écrit enfin le résultat dans le fichier
@@ -54,7 +54,7 @@ object Main extends App {
       val errorWritter =
         new ErrorWriter(donneesIncorectesException.getMessage)
       val outputFile: File = File(
-        "C:\\\\Users\\\\petit\\\\OneDrive\\\\Bureau\\\\SCALA test\\\\output9.json"
+        "C:\\\\Users\\\\petit\\\\OneDrive\\\\Bureau\\\\SCALA test\\\\output14.json"
       )
       outputFile
         .createIfNotExists()
